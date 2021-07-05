@@ -1,0 +1,18 @@
+{
+    "info": {},
+    "gql": {
+        "cryptokitties": {
+            "img": "https://img.cryptokitties.co/{contract_hash}/{uri_id}.png",
+            "api": "https://api.thegraph.com/subgraphs/name/upshot-tech/nft-analytics-cryptokitties"
+        },
+        "cryptopunks": {
+            "img": "https://larvalabs.com/public/images/cryptopunks/punk{uri_id:04}.png",
+            "api": "https://api.thegraph.com/subgraphs/name/upshot-tech/nft-analytics-cryptopunks"
+        }
+    },
+    "rest": {
+        "rarible": {
+            "api": "https://api.rarible.com/protocol/v0.1/ethereum/nft/items/all"
+        }
+    }
+}

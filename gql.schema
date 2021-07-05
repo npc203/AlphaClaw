@@ -1,0 +1,10 @@
+{
+  nfts {
+    uri
+    contract
+    {
+      id
+    }
+    
+  }
+}
