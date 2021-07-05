@@ -7,10 +7,10 @@ with open("nft_grab.json", "r") as f:
 asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
 
-async def fetch(session, url, path):
+async def fetch(session, url, path, price):
     async with session.get(url) as resp:
         if resp.status == 200:
-            async with aiofiles.open(path + url.split("/")[-1], mode="wb") as f:
+            async with aiofiles.open(path + f"{price}_" + url.split("/")[-1], mode="wb") as f:
                 await f.write(await resp.read())
                 await f.close()
         else:
@@ -24,8 +24,8 @@ async def download(image_urls: list, path):
         "user-agent": "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
     }
     async with aiohttp.ClientSession(headers=headers) as session:
-        for url in image_urls:
-            tasks.append(fetch(session, url, path))
+        for url, price in image_urls:
+            tasks.append(fetch(session, url, path, max(price)))
         await asyncio.gather(*tasks)
 
 
@@ -37,8 +37,11 @@ async def main_gql():
             x = json.loads(await f.read())["nfts"]
             for i in x:
                 image_urls.append(
-                    data["gql"][thing]["img"].format(
-                        uri_id=int(i["uri"].split("/")[-1]), contract_hash=i["contract"]["id"]
+                    (
+                        data["gql"][thing]["img"].format(
+                            uri_id=int(i["uri"].split("/")[-1]), contract_hash=i["contract"]["id"]
+                        ),
+                        [*map(lambda x: x["amount"], i["sales"])] or [0],
                     )
                 )
             await download(image_urls, path)

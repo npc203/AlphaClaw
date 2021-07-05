@@ -12,7 +12,8 @@
     },
     "rest": {
         "rarible": {
-            "api": "https://api.rarible.com/protocol/v0.1/ethereum/nft/items/all"
+            "api": "https://api.rarible.com/protocol/v0.1/ethereum/nft/items/all",
+            "img": "https://api.rarible.com/protocol/v0.1/ethereum/nft/items/{itemId}/meta"
         }
     }
 }
